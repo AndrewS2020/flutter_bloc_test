@@ -146,7 +146,11 @@ class MainPage extends StatelessWidget {
                             ),
                             onTap: (){
                               FocusScope.of(context).requestFocus();
-                              _countries.selectedIndex = index;
+                              if (_countries.selectedIndex == index){
+                                _countries.selectedIndex = -1;
+                              } else {
+                                _countries.selectedIndex = index;
+                              }
                               BlocProvider.of<CountriesBloc>(context).add(SetSelectedIndex(index));
                             },
                           ),
