@@ -19,6 +19,15 @@ class HomeRoute extends StatefulWidget {
 
 class _HomeRouteState extends State<HomeRoute> {
 
+  CountriesBloc _bloc;
+
+  @override
+  void initState() {
+    _bloc = CountriesBloc(CountriesLoading());
+    _bloc.add(FetchCountries(''));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +36,7 @@ class _HomeRouteState extends State<HomeRoute> {
         title : Text('Search country test'),
       ),
       body: BlocProvider(
-        create: (context) => CountriesBloc(CountriesLoading()),
+        create: (context) => _bloc,
         child: MainPage(),
       ),
     );
@@ -56,7 +65,8 @@ class MainPage extends StatelessWidget {
                 child: TextField(
                   onChanged: (text) {
                     if ((text ?? '') != '') {
-                      BlocProvider.of<CountriesBloc>(context).add(FetchCountries(text));
+                      //BlocProvider.of<CountriesBloc>(context).add(FetchCountries(text));
+                      BlocProvider.of<CountriesBloc>(context).add(Filtering(text));
                     }
                   },
                 ),
@@ -87,21 +97,23 @@ class MainPage extends StatelessWidget {
       );
     }
 
-    if (_state is CountriesLoaded || _state is CountriesSetSelected) {
+    if (_state is CountriesLoaded || _state is CountriesSetSelected || _state is CountriesFiltering) {
 
       return Container(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+
               Container(
                 alignment: Alignment.center,
                 width: double.infinity,
                 child: Text('search result:',
                   style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.amber),),
               ),
+              Text('Founded  ${_countries.items?.length??0} (${_countries.data?.length??0}) items'),
               Expanded(
                 child: ListView.builder(
-                  itemCount: _countries.items.length,
+                  itemCount: _countries.items?.length ?? 0,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(
@@ -111,9 +123,14 @@ class MainPage extends StatelessWidget {
                           leading: Container(
                             alignment: Alignment.centerLeft,
                             width: 80, //height: 50,
-                            child: SvgPicture.network(
-                              _countries.items[index].flag,
-                              fit: BoxFit.fill,
+                            child: AnimatedOpacity(
+                              duration: Duration(microseconds: 1000),
+                              opacity: 1,
+                              child: SvgPicture.network(
+                                _countries.items[index].flag,
+                                fit: BoxFit.fitHeight,
+                                clipBehavior: Clip.antiAlias,
+                              ),
                             ),
                           ),
                           title: Text(_countries.items[index].name,

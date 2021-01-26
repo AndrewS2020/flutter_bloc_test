@@ -11,8 +11,12 @@ class Api{
 
   Future<List<Country>> fetchCountries(String filter) async {
 
+    String endPoint='';
+
     List<Country> _list = List();
-    final response = await http.get(baseUrl + 'name/' + filter);
+
+    if ((filter??'').isNotEmpty) endPoint = 'name/' + filter;
+    final response = await http.get(baseUrl + endPoint);
 
     print('--->' + json.decode(response.body).toString() );
 

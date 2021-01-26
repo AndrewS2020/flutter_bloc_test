@@ -30,6 +30,15 @@ class CountriesLoaded extends CountriesState{
   List<Object> get props => [_countries,];
 }
 
+class CountriesFiltering extends CountriesState{
+  final Countries _countries;
+  CountriesFiltering(this._countries);
+
+  @override
+  List<Object> get props => [_countries,];
+}
+
+
 class CountriesSetSelected extends CountriesState{
   final int _index;
   CountriesSetSelected(this._index);

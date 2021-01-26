@@ -70,7 +70,7 @@ class DetailPage extends StatelessWidget{
         child: Container(
           height: 200,
           child: SvgPicture.network(country.flag,
-          fit: BoxFit.fill,
+          fit: BoxFit.fitHeight,
         ))),
 
         buildRow(context,'Name', country.name),

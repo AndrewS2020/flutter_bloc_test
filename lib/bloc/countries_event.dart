@@ -20,3 +20,13 @@ class FetchCountries extends CountriesEvent{
   @override
   List<Object> get props => [_filter];
 }
+
+class Filtering extends CountriesEvent{
+ final String _filter;
+
+ Filtering(this._filter);
+
+ @override
+ List<Object> get props => [_filter];
+
+}
