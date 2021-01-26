@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc_test/api/repository.dart';
 import 'package:flutter_bloc_test/model/countries.dart';
 import 'package:flutter_bloc_test/model/country.dart';
@@ -17,7 +16,6 @@ class CountriesBloc extends Bloc<CountriesEvent, CountriesState> {
 
   @override
   Stream<CountriesState> mapEventToState(CountriesEvent event) async* {
-
     if(event is FetchCountries) {
       yield CountriesLoading();
       try {
