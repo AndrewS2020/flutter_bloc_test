@@ -23,8 +23,6 @@ class Api{
     String ss = response.body;
     (json.decode(ss) as List).forEach((c) {
       _list.add(Country.fromJson(c));
-      print('   * * *   ');
-
     });
 
     return _list;
